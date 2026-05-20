@@ -2,17 +2,16 @@ import multer from "multer";
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, "uploads/")
+    callback(null, "uploads/");
   },
   filename: (req, file, callback) => {
-    const uniqueName =
-      Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const uniqueName = Date.now() + "-" + Math.round(Math.random() * 1e9);
 
     const ext = path.extname(file.originalname);
 
     callback(null, file.fieldname + "-" + uniqueName + ext);
-  }
-})
+  },
+});
 
 const fileFilter = (req, file, callback) => {
   if (
@@ -29,7 +28,7 @@ const fileFilter = (req, file, callback) => {
 const upload = multer({
   storage,
   fileFilter,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  limits: { fileSize: 5 * 1024 * 1024 }, 
 });
 
 export default upload;
