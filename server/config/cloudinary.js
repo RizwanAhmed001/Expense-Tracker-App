@@ -1,4 +1,4 @@
-import { cloudinary as v2 } from "cloudinary";
+import { v2 as cloudinary } from "cloudinary";
 
 const cloudinaryConfig = () => {
   cloudinary.config({
@@ -7,3 +7,6 @@ const cloudinaryConfig = () => {
     api_secret: process.env.CLOUDINARY_API_SECRET,
   });
 };
+
+
+export default cloudinaryConfig;
