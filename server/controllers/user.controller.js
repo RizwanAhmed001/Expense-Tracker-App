@@ -78,7 +78,6 @@ export const register = async (req, res) => {
   }
 };
 
-
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -108,11 +107,9 @@ export const login = async (req, res) => {
       });
     }
 
-    const token = jwt.sign(
-      { id: isExist._id },
-      process.env.JWT_SECRET_KEY,
-      { expiresIn: "7d" }
-    );
+    const token = jwt.sign({ id: isExist._id }, process.env.JWT_SECRET_KEY, {
+      expiresIn: "7d",
+    });
 
     const isProduction = process.env.NODE_ENV === "production";
 
@@ -130,6 +127,28 @@ export const login = async (req, res) => {
         name: isExist.name,
         image: isExist.image,
       },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const logout = async (req, res) => {
+  try {
+    const isProduction = process.env.NODE_ENV === "production";
+
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "User Logged Out Successfully!",
     });
   } catch (error) {
     return res.status(500).json({
